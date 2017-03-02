@@ -1,1 +1,1 @@
-# cgalaxy.com
+# cgalaxy.top
