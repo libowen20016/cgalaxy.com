@@ -1,0 +1,174 @@
+  <!doctype html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no">
+<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+<title>new</title>
+<script type="text/javascript" src="jquery.js"></script>
+<style>
+*{
+	margin:0;
+	padding: 0;
+}
+*:focus{
+  outline:none;
+}
+img{
+  display: block;
+}
+#image4{
+  display: block;
+  width:100%;
+  position: fixed;
+  bottom:0;
+  left:0;
+}
+#image2{
+    height: 24rem;
+}
+</style>
+</head>
+<body id="body">
+<div id="image1"></div>
+<div id="image2"></div>
+<div id="image3-1"></div>
+<div id="image3-2"></div>
+<div id="image3-3"></div>
+<a   id="image4"></a>
+<!-- <img src="img/top.png" alt="" width="100%" style="margin-bottom:1rem">
+<img id="dif_img" src="" alt="" width="100%">
+<img src="img/content.png" alt="" width="100%" style="margin-top:.3rem"> -->
+<script>
+
+(function($){$.getUrlParam= function(name){
+  var reg= new RegExp("(^|&)"+name +"=([^&]*)(&|$)");
+  var r= window.location.search.substr(1).match(reg);
+  if (r!=null) return unescape(r[2]); return null;
+  }
+})(jQuery);
+
+
+var images=["img/manage.png","img/staff.png","img/emotion.png","img/marriage.png","img/parent.png"]
+var images2=["img/manage.jpg","img/staff.jpg","img/staff.jpg","img/marriage.jpg","img/parent.jpg"]
+
+$(function(){
+   $("#image4").click(browserRedirect);
+   var imgcod=$.getUrlParam('imgcod')
+   console.log(images[imgcod])
+   if(images[imgcod]){
+   loadImg("img/top.png",addImg,"margin-bottom:1rem","image1");
+   loadImg(images[imgcod],addImg,"","image2");
+   loadImg("img/content1.jpg",addImg,"margin-top:.3rem","image3-1");
+   loadImg(images2[imgcod],addImg,"","image3-2");
+   loadImg("img/content2.jpg",addImg,"","image3-3");
+   loadImg("img/buy.png",addImg,"","image4");}
+  function loadImg(url,callback,style,id){
+    var img = new Image();
+    img.onload = function(){
+      img.onload = null;
+      callback(img,id);
+    }
+    $(img).attr("style",style)
+    img.src=url;
+    $(img).css("width","100%")
+  }
+  function addImg(img,id){
+    $(img).appendTo($("#"+id))
+  }
+  
+})
+
+
+
+
+
+
+
+var dpr, rem, scale;
+var docEl = document.documentElement;
+var fontEl = document.createElement('style');
+var metaEl = document.querySelector('meta[name = "viewport"]');
+dpr = window.devicePixelRatio || 1;
+rem = docEl.clientWidth * dpr / 10;
+scale = 1 / dpr;
+//设置viewport，进行缩放，达到高清效果
+metaEl.setAttribute('content', 'width=' + dpr * docEl.clientWidth);
+metaEl.setAttribute('content', 'width=' + docEl.clientWidth + ',initial-scale=' + scale + ',maximum-scale=' + scale + ',minimum-scale=' + scale + ', user-scalable=no');
+//设置data-dpr属性，留作的css hack之用
+docEl.setAttribute('data-dpr', dpr);
+//动态写入样式
+// docEl.firstElementChild.appendChild(fontEl);
+// fontEl.innerHTML = 'html{font-size:' + rem +'px!important;}';
+document.getElementsByTagName('html')[0].style.fontSize = rem + 'px';
+//给js调用的，某一dpr下rem和px之间的转化函数
+window.rem2px = function(v) {
+	v = parseFloat(v);
+	return v * rem;
+}
+window.px2rem = function(v) {
+	v = parseFloat(v);
+	return v / rem;
+}
+window.dpr = dpr;
+window.rem = rem;
+//document.getElementsByTagName('body')[0].style.zoom = scale;
+//console.log(document.getElementsByTagName('body'));
+(function (doc, win) {
+    var docEl = doc.documentElement,
+    resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+    recalc = function () {
+        var clientWidth = docEl.clientWidth;
+        if (!clientWidth) return;
+        docEl.style.fontSize = 20 * (clientWidth / 320) + 'px';
+    };
+    if (!doc.addEventListener) return;
+    win.addEventListener(resizeEvt, recalc, false);
+    doc.addEventListener('DOMContentLoaded', recalc, false);
+})(document, window);
+
+
+
+</script>
+<script type="text/javascript">
+  function browserRedirect() {
+    var sUserAgent= navigator.userAgent.toLowerCase();
+    var bIsIpad= sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp= sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7= sUserAgent.match(/rv: 1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid= sUserAgent.match(/android/i) == "android";
+    var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+      window.location.href='mobilePay.html';
+    }
+    else {
+      window.location='pcPay.html';
+    }
+  }
+  function browserRedirectCss() {
+    var sUserAgent= navigator.userAgent.toLowerCase();
+    var bIsIpad= sUserAgent.match(/ipad/i) == "ipad";
+    var bIsIphoneOs= sUserAgent.match(/iphone os/i) == "iphone os";
+    var bIsMidp= sUserAgent.match(/midp/i) == "midp";
+    var bIsUc7= sUserAgent.match(/rv: 1.2.3.4/i) == "rv:1.2.3.4";
+    var bIsUc= sUserAgent.match(/ucweb/i) == "ucweb";
+    var bIsAndroid= sUserAgent.match(/android/i) == "android";
+    var bIsCE= sUserAgent.match(/windows ce/i) == "windows ce";
+    var bIsWM= sUserAgent.match(/windows mobile/i) == "windows mobile";
+
+    if (bIsIpad || bIsIphoneOs || bIsMidp || bIsUc7 || bIsUc || bIsAndroid || bIsCE || bIsWM) {
+      
+    }
+    else {
+      $("#body").css({width:"414px",margin:"auto"});
+      $("#image4").css({width:"414px",margin:"auto",right:"0"})
+      $("#image2").css("height","610px")
+    }
+  }
+  browserRedirectCss()
+</script>
+</body>
+</html>
